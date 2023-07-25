@@ -113,7 +113,8 @@ def p_error(p):
 parser = yacc()
 
 # Parse an expression
-ast = parser.parse('(p=>q)^p')
+original = '(p=>q)^p'
+ast = parser.parse(original)
 if SHOW:
     print('TEXT TREE REPRESENTATION:', ast)
 
@@ -137,25 +138,21 @@ def node_label(node):
         return 'error'
 
 
-def graph_ast(ast):
+def graph_ast(ast, original_ast=''):
     # create a new directed graph
     G = nx.DiGraph()
 
     # add the root node to the graph
     root = str(id(ast))
-    G.add_node(root, label=ast[0])
+    G.add_node(root, label=node_label(ast))
 
-    count = 0
-    # recursively add the child nodes to the graph
-
-    def custom_add_node(node, parent):
-        nonlocal count
-        count += 1
-        print(count, node)
+    def custom_add_node(node, parent, first=False):
+        # recursively add the child nodes to the graph
         if len(node) == 3:
             node_id = str(id(node))
-            G.add_node(node_id, label=node_label(node))
-            G.add_edge(parent, node_id)
+            if first is False:
+                G.add_node(node_id, label=node_label(node))
+                G.add_edge(parent, node_id)
             custom_add_node(node[1], node_id)
             custom_add_node(node[2], node_id)
         else:
@@ -163,24 +160,51 @@ def graph_ast(ast):
             G.add_node(node_id, label=node_label(node))
             G.add_edge(parent, node_id)
 
-    custom_add_node(ast, root)
+    custom_add_node(ast, root, True)
 
     # set the node labels and positions
     labels = nx.get_node_attributes(G, 'label')
-    pos = nx.spring_layout(G)
+    # pos = nx.spring_layout(G)
 
-    # draw the graph
+    # # draw the graph
+    # nx.draw_networkx_nodes(G, pos, node_size=1000,
+    #                        node_color='white', edgecolors='black')
+    # nx.draw_networkx_edges(G, pos, arrowsize=20, edge_color='black')
+    # nx.draw_networkx_labels(G, pos, labels, font_size=12)
+
+    # # show the graph
+    # plt.axis('off')
+    # plt.show()
+
+    for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
+        # `multipartite_layout` expects the layer as a node attribute, so add the
+        # numeric layer value as a node attribute
+        for node in nodes:
+            G.nodes[node]["layer"] = layer
+
+    # Compute the multipartite_layout using the "layer" node attribute
+    pos = nx.multipartite_layout(G, subset_key="layer", align='horizontal')
+
+    fig, ax = plt.subplots()
     nx.draw_networkx_nodes(G, pos, node_size=1000,
                            node_color='white', edgecolors='black')
     nx.draw_networkx_edges(G, pos, arrowsize=20, edge_color='black')
     nx.draw_networkx_labels(G, pos, labels, font_size=12)
-
-    # show the graph
+    ax.set_title('Grafo dirigido' + '\n' + original_ast, fontsize=20)
+    fig.tight_layout()
     plt.axis('off')
     plt.show()
 
 
 if GRAPH:
-    graph_ast(ast)
+    graph_ast(ast, original)
 
 # TODO show the text representation of the tree to the professor
+
+
+'''
+REFERENCES:
+https://stackoverflow.com/questions/29586520/can-one-get-hierarchical-graphs-from-networkx-with-python-3/76215030#76215030
+https://github.com/dabeaz/ply
+
+'''
