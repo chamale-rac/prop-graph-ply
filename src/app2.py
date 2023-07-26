@@ -19,6 +19,14 @@ import networkx as nx
 # description: args received from command line
 
 
+import os
+
+
+def create_directory_if_not_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+
 # --------- tokenizer ---------
 # description: lexical analysis of the input string
 
@@ -161,6 +169,7 @@ for i, result in enumerate(results):
     G = graph_tree(result)
     labels = nx.get_node_attributes(G, 'label')
 
+    # this is the part that I don't understand, I just copied it from the stackoverflow answer
     for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
         # `multipartite_layout` expects the layer as a node attribute, so add the
         # numeric layer value as a node attribute
@@ -178,7 +187,9 @@ for i, result in enumerate(results):
     fig.tight_layout()
     plt.axis('off')
 
-    plt.savefig(f'../img/graph{i}.png')
+    dir = '../img/'
+    create_directory_if_not_exists(dir)
+    plt.savefig(f'{dir}graph{i}.png')
     plt.close()
 
 
