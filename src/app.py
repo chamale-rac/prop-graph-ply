@@ -36,7 +36,7 @@ t_BICONDITIONAL = r'<=>'
 t_LEFT_PARENTHESIS = r'\('
 t_RIGHT_PARENTHESIS = r'\)'
 # t_COMMA = r',' TODO why to include this, is it even used?
-t_LETTER = r'[a-np-zA-Z]'  # letters except 'o' used for disjunction
+t_LETTER = r'[a-np-zA-Z]|[0-9]'  # letters except 'o' used for disjunction
 
 
 def t_ignore_newline(t):
@@ -176,22 +176,33 @@ def graph_ast(ast, original_ast=''):
     # plt.axis('off')
     # plt.show()
 
-    for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
-        # `multipartite_layout` expects the layer as a node attribute, so add the
-        # numeric layer value as a node attribute
-        for node in nodes:
-            G.nodes[node]["layer"] = layer
+    # for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
+    #     # `multipartite_layout` expects the layer as a node attribute, so add the
+    #     # numeric layer value as a node attribute
+    #     for node in nodes:
+    #         G.nodes[node]["layer"] = layer
 
-    # Compute the multipartite_layout using the "layer" node attribute
-    pos = nx.multipartite_layout(G, subset_key="layer", align='horizontal')
+    # # Compute the multipartite_layout using the "layer" node attribute
+    # pos = nx.multipartite_layout(G, subset_key="layer", align='horizontal')
 
-    fig, ax = plt.subplots()
+    # fig, ax = plt.subplots()
+    # nx.draw_networkx_nodes(G, pos, node_size=1000,
+    #                        node_color='white', edgecolors='black')
+    # nx.draw_networkx_edges(G, pos, arrowsize=20, edge_color='black')
+    # nx.draw_networkx_labels(G, pos, labels, font_size=12)
+    # ax.set_title('Grafo dirigido' + '\n' + original_ast, fontsize=20)
+    # fig.tight_layout()
+    # plt.axis('off')
+    # plt.show()
+    pos = nx.spring_layout(G)
+
+    # draw the graph
     nx.draw_networkx_nodes(G, pos, node_size=1000,
                            node_color='white', edgecolors='black')
     nx.draw_networkx_edges(G, pos, arrowsize=20, edge_color='black')
     nx.draw_networkx_labels(G, pos, labels, font_size=12)
-    ax.set_title('Grafo dirigido' + '\n' + original_ast, fontsize=20)
-    fig.tight_layout()
+
+    # show the graph
     plt.axis('off')
     plt.show()
 
