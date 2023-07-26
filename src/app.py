@@ -176,11 +176,11 @@ def graph_ast(ast, original_ast=''):
     # plt.axis('off')
     # plt.show()
 
-    # for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
-    #     # `multipartite_layout` expects the layer as a node attribute, so add the
-    #     # numeric layer value as a node attribute
-    #     for node in nodes:
-    #         G.nodes[node]["layer"] = layer
+    for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
+        # `multipartite_layout` expects the layer as a node attribute, so add the
+        # numeric layer value as a node attribute
+        for node in nodes:
+            G.nodes[node]["layer"] = layer
 
     # # Compute the multipartite_layout using the "layer" node attribute
     # pos = nx.multipartite_layout(G, subset_key="layer", align='horizontal')

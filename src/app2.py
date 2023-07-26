@@ -12,6 +12,7 @@ from ply.yacc import yacc
 
 import matplotlib.pyplot as plt
 import networkx as nx
+# from networkx.drawing.nx_agraph import graphviz_layout
 
 
 # --------- project ---------
@@ -147,7 +148,7 @@ for chain in chains:
 
 # --------- tree ---------
 def graph_tree(tree):
-    G = nx.Graph()
+    G = nx.DiGraph()
     G.add_node(tree.id, label=tree.value)
     for child in tree.children:
         child_G = graph_tree(child)
@@ -156,7 +157,33 @@ def graph_tree(tree):
     return G
 
 
-G = graph_tree(results[0])
-labels = nx.get_node_attributes(G, 'label')
-nx.draw(G, with_labels=True, labels=labels)
-plt.show()
+for i, result in enumerate(results):
+    G = graph_tree(result)
+    labels = nx.get_node_attributes(G, 'label')
+
+    for layer, nodes in enumerate(reversed(tuple(nx.topological_generations(G)))):
+        # `multipartite_layout` expects the layer as a node attribute, so add the
+        # numeric layer value as a node attribute
+        for node in nodes:
+            G.nodes[node]["layer"] = layer
+
+    pos = nx.multipartite_layout(G, subset_key="layer", align='horizontal')
+
+    fig, ax = plt.subplots()
+    nx.draw_networkx_nodes(G, pos, node_size=1000,
+                           node_color='white', edgecolors='black')
+    nx.draw_networkx_edges(G, pos, arrowsize=20, edge_color='black')
+    nx.draw_networkx_labels(G, pos, labels, font_size=12)
+    ax.set_title('Grafo dirigido ' + chains[i], fontsize=20)
+    fig.tight_layout()
+    plt.axis('off')
+
+    plt.savefig(f'../img/graph{i}.png')
+    plt.close()
+
+
+'''
+REFERENCES:
+https://stackoverflow.com/questions/29586520/can-one-get-hierarchical-graphs-from-networkx-with-python-3/76215030#76215030
+https://github.com/dabeaz/ply
+'''
