@@ -1,8 +1,7 @@
 # -----------------------------------------------------------------------------
 # app2.py
-# author: Samuel A. Chamalé
+# author: Grupo 3
 # date: 2023-08-25 18:00:00
-# email: 4444@schr.tech
 # -----------------------------------------------------------------------------
 
 
@@ -191,6 +190,8 @@ for i, result in enumerate(results):
     create_directory_if_not_exists(dir)
     plt.savefig(f'{dir}graph{i}.png')
     plt.close()
+
+    # TODO check operations order while graphing
 
 
 '''
