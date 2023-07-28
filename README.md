@@ -20,3 +20,11 @@ Reduced propositional calculus expression recognizer and grapher using the PLY a
 ## 👩‍🚀 About
 
 Any doubt please tell me :)
+
+## 🎭 Show off
+
+**Expression: (~(p^(qor))os)** 
+
+**Result:** 
+
+![graph8](https://github.com/chamale-rac/prop-graph-ply/assets/63200593/ae8775cb-86bf-4ee8-be55-2a1101058d96)
