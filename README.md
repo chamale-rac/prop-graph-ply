@@ -3,9 +3,9 @@ Reduced propositional calculus expression recognizer and grapher using the PLY a
 
 ## 🙋‍♂️ How to use it?
 
-1. Go to [ply](https://github.com/dabeaz/ply) and copy the *src/ply* dir and past it inside this project *src/*, as it say in the description is the easiest way to use the library.
+1. Go to [ply](https://github.com/dabeaz/ply) and copy the *src/ply* dir and past it inside this project *src/*, as it say in the [ply](https://github.com/dabeaz/ply) description is the easiest way to use the library.
 
-2. Always on the on the *src/*, Install the requirements listed on [requirements.txt](./src/requirements.txt) by one by or run:
+2. Always on the on the *src/*, Install the requirements listed on [requirements.txt](./src/requirements.txt) ore by one, or run:
 
     ```bash
     pip install requirements.txt
@@ -19,4 +19,4 @@ Reduced propositional calculus expression recognizer and grapher using the PLY a
 
 ## 👩‍🚀 About
 
-Any doubt please contact me :)
+Any doubt please tell me :)
