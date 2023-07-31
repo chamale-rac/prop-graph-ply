@@ -30,20 +30,29 @@ def create_directory_if_not_exists(directory):
 # description: lexical analysis of the input string
 
 
+# tokens = ('NEGATION',
+#           'CONJUNCTION',
+#           'DISJUNCTION',
+#           'IMPLICATION',
+#           'BICONDITIONAL',
+#           'LPAREN',
+#           'RPAREN',
+#           'VARIABLE')  # already in precedence order
+
 tokens = ('NEGATION',
-          'CONJUNCTION',
-          'DISJUNCTION',
           'IMPLICATION',
           'BICONDITIONAL',
+          'CONJUNCTION',
+          'DISJUNCTION',
           'LPAREN',
           'RPAREN',
-          'VARIABLE')  # already in precedence order
+          'VARIABLE')
 # TODO ask about the precedence order
 
 # negacion
 # implicacion
 # doble implicacion
-# y o
+# y:conjuncion o disjuncion
 
 t_ignore = ' \t'
 
