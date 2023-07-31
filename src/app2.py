@@ -41,6 +41,11 @@ tokens = ('NEGATION',
           'VARIABLE')  # already in precedence order
 # TODO ask about the precedence order
 
+# negacion
+# implicacion
+# doble implicacion
+# y o
+
 t_ignore = ' \t'
 
 t_NEGATION = r'\~'
@@ -122,8 +127,9 @@ def p_expression(p):
                   | expression BICONDITIONAL expression'''
 
     node = Node(p[2])
-    node.add_child(p[1])
     node.add_child(p[3])
+    node.add_child(p[1])
+    # ask about the order of the children, cause it will affect the diagram
     p[0] = node
 
 
@@ -142,8 +148,10 @@ chains = [
     '~(p^q)',
     '(p<=>~p)',
     '((p=>q)^p)',
-    '(~(p^(qor))os)'
+    '(~(p^(qor))os)',
+
 ]
+
 results = []
 
 for chain in chains:
