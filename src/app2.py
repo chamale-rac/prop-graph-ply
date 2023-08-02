@@ -63,7 +63,7 @@ t_IMPLICATION = r'=>'
 t_BICONDITIONAL = r'<=>'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_VARIABLE = r'[a-np-zA-Z]|[0-9]'  # letters except 'o' used for disjunction
+t_VARIABLE = r'[pqrstuvwxyz]|[01]'  # letters except 'o' used for disjunction
 # TODO ask about including t_COMMA
 
 
