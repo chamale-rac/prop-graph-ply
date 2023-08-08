@@ -46,7 +46,8 @@ tokens = ('NEGATION',
           'DISJUNCTION',
           'LPAREN',
           'RPAREN',
-          'VARIABLE')
+          'VARIABLE',
+          'CONSTANT')
 # TODO ask about the precedence order
 
 # negacion
@@ -63,7 +64,8 @@ t_IMPLICATION = r'=>'
 t_BICONDITIONAL = r'<=>'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_VARIABLE = r'[pqrstuvwxyz]|[01]'  # letters except 'o' used for disjunction
+t_VARIABLE = r'[pqrstuvwxyz]'  # letters except 'o' used for disjunction
+t_CONSTANT = r'[01]'
 # TODO ask about including t_COMMA
 
 
@@ -113,6 +115,11 @@ class Node:
 
 def p_expression_variable(p):
     'expression : VARIABLE'
+    p[0] = Node(p[1])
+
+
+def p_expression_constant(p):
+    'expression : CONSTANT'
     p[0] = Node(p[1])
 
 
