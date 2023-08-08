@@ -27,4 +27,5 @@ Any doubt please tell me :)
 
 **Result:** 
 
-![graph8](https://github.com/chamale-rac/prop-graph-ply/assets/63200593/ae8775cb-86bf-4ee8-be55-2a1101058d96)
+![image](https://github.com/chamale-rac/prop-graph-ply/assets/63200593/c4af2043-edc9-424b-a36c-f7652167c095)
+
