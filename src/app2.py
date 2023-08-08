@@ -30,25 +30,17 @@ def create_directory_if_not_exists(directory):
 # description: lexical analysis of the input string
 
 
-# tokens = ('NEGATION',
-#           'CONJUNCTION',
-#           'DISJUNCTION',
-#           'IMPLICATION',
-#           'BICONDITIONAL',
-#           'LPAREN',
-#           'RPAREN',
-#           'VARIABLE')  # already in precedence order
-
-tokens = ('NEGATION',
-          'IMPLICATION',
-          'BICONDITIONAL',
-          'CONJUNCTION',
-          'DISJUNCTION',
-          'LPAREN',
-          'RPAREN',
-          'VARIABLE',
-          'CONSTANT')
-# TODO ask about the precedence order
+tokens = (
+    'NEGATION',
+    'CONJUNCTION',
+    'DISJUNCTION',
+    'IMPLICATION',
+    'BICONDITIONAL',
+    'LPAREN',
+    'RPAREN',
+    'VARIABLE',
+    'CONSTANT'
+)
 
 # negacion
 # implicacion
@@ -113,6 +105,16 @@ class Node:
 # description: syntactic analysis of the input string
 
 
+# Update the precedence and associativity of operators
+precedence = (
+    ('left', 'BICONDITIONAL'),
+    ('left', 'IMPLICATION'),
+    ('left', 'DISJUNCTION'),
+    ('left', 'CONJUNCTION'),
+    ('right', 'NEGATION'),
+)
+
+
 def p_expression_variable(p):
     'expression : VARIABLE'
     p[0] = Node(p[1])
@@ -121,13 +123,6 @@ def p_expression_variable(p):
 def p_expression_constant(p):
     'expression : CONSTANT'
     p[0] = Node(p[1])
-
-
-def p_expression_negation(p):
-    'expression : NEGATION expression'
-    node = Node(p[1])
-    node.add_child(p[2])
-    p[0] = node
 
 
 def p_expression_paren(p):
@@ -144,7 +139,13 @@ def p_expression(p):
     node = Node(p[2])
     node.add_child(p[3])
     node.add_child(p[1])
-    # ask about the order of the children, cause it will affect the diagram
+    p[0] = node
+
+
+def p_expression_negation(p):
+    'expression : NEGATION expression %prec NEGATION'
+    node = Node(p[1])
+    node.add_child(p[2])
     p[0] = node
 
 
